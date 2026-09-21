@@ -1,0 +1,10 @@
+************* Module app.cli
+app/cli.py:6:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/cli.py:2:0: W0611: Unused save_tasks imported from app.tasks (unused-import)
+app/cli.py:2:0: W0611: Unused add_task imported from app.tasks (unused-import)
+************* Module app.tasks
+app/tasks.py:67:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+
+------------------------------------------------------------------
+Your code has been rated at 9.47/10 (previous run: 8.95/10, +0.53)
+

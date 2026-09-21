@@ -1,0 +1,86 @@
+"""Task management core logic."""
+import json
+import os
+
+TASKS_FILE = "tasks.json"
+
+
+def load_tasks():
+    """Load tasks from disk, returning an empty list if no file exists."""
+    if os.path.exists(TASKS_FILE):
+        with open(TASKS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data
+    return []
+
+
+def save_tasks(tasks):
+    """Persist tasks to disk."""
+    with open(TASKS_FILE, "w", encoding="utf-8") as f:
+        json.dump(tasks, f)
+
+
+def add_task(tasks, title, priority=1, tags=None):
+    """Create a new task and append it to the task list."""
+    if tags is None:
+        tags = []
+    else:
+        tags = list(tags)
+
+    task = {
+        "id": len(tasks) + 1,
+        "title": title,
+        "priority": priority,
+        "tags": tags,
+        "done": False,
+    }
+    tasks.append(task)
+    return task
+
+
+def complete_task(tasks, task_id):
+    """Mark a task as done by id."""
+    for task in tasks:
+        if task["id"] == task_id:
+            task["done"] = True
+            return True
+    return False
+
+
+def get_pending_tasks(tasks):
+    """Return all tasks that are not yet done."""
+    pending = []
+    for task in tasks:
+        if not task["done"]:
+            pending.append(task)
+    return pending
+
+
+def average_priority(tasks):
+    """Return the average priority across all tasks."""
+    total = 0
+    for task in tasks:
+        total += task["priority"]
+    return total / len(tasks)
+
+
+def find_task_by_title(tasks, title):
+    """Return the first task matching the given title."""
+    for task in tasks:
+        if task["title"] == title:
+            return task
+
+
+def remove_task(tasks, task_id):
+    """Remove a task by id."""
+    for i, task in enumerate(tasks):
+        if task["id"] == task_id:
+            del tasks[i]
+            break
+
+
+def calculate_discount(price, is_premium):
+    """Apply a loyalty discount for premium users."""
+    if is_premium:
+        return price * 0.8
+    return price
