@@ -1,0 +1,116 @@
+Thinking...
+
+*   Function: `calculate_discount(price, is_premium)`
+*   Logic:
+    *   `is_premium` = True $\rightarrow$ 20% off (Price * 0.8)
+    *   `is_premium` = False $\rightarrow$ Full price (Price * 1.0)
+*   Implied Domain: `price` should be a non-negative number. `is_premium` s[1D[K
+should be a boolean.
+
+    *   `price`:
+        *   Type: Number (float or integer).
+        *   Valid Domain: $[0, \infty)$ (Price cannot be negative).
+    *   `is_premium`:
+        *   Type: Boolean.
+        *   Valid Domain: `{True, False}`.
+
+    *   *Price:*
+        *   Valid: $price \ge 0$ (e.g., 0, 10, 100.50).
+        *   Invalid: $price < 0$ (e.g., -1, -50).
+        *   Invalid: Non-numeric (e.g., "abc", None).
+    *   *is_premium:*
+        *   Valid: `True`.
+        *   Valid: `False`.
+        *   Invalid: Non-boolean (e.g., "Yes", 1, 0, None). *Note: In Pytho[5D[K
+Python, 1/0 are often truthy/falsy, but from a strict specification standpo[7D[K
+standpoint, they are invalid types.*
+
+    *   *Price:*
+        *   Lower boundary: 0.
+        *   Just above lower boundary: 0.01.
+        *   Extremely high value (representative of upper bound).
+    *   *is_premium:*
+        *   Boolean types don't have "boundaries" in the numeric sense, but[3D[K
+but we test the two distinct states.
+
+    *   Need 10 cases.
+    *   Mix of Valid/Invalid for both inputs.
+    *   Cover both premium and regular.
+    *   Cover boundary conditions (0).
+    *   Cover error cases (negative price, wrong types).
+
+    *   *Drafting the table:*
+        1.  (100, True, 80) - Standard Premium
+        2.  (100, False, 100) - Standard Regular
+        3.  (0, True, 0) - Zero Price Premium
+        4.  (0, False, 0) - Zero Price Regular
+        5.  (50.5, True, 40.4) - Float Price Premium
+        6.  (50.5, False, 50.5) - Float Price Regular
+        7.  (-10, True, Error/Exception) - Negative Price
+        8.  (100, "True", Error/Exception) - Wrong type for boolean
+        9.  ("100", True, Error/Exception) - Wrong type for price
+        10. (1000000, True, 800000) - Large value
+
+    *   *Check:* Did I list inputs? Yes.
+    *   *Check:* Equivalence partitions? Yes.
+    *   *Check:* Boundary values? Yes.
+    *   *Check:* 10 test cases? Yes.
+...done thinking.
+
+### 1. Input Variables and Valid Domains
+
+| Variable | Data Type | Valid Domain | Description |
+| :--- | :--- | :--- | :--- |
+| `price` | Numeric (Float/Int) | $\text{price} \ge 0$ | The original cost [K
+of the item. Must be non-negative. |
+| `is_premium` | Boolean | $\{\text{True, False}\}$ | Flag indicating if th[2D[K
+the user has premium status. |
+
+---
+
+### 2. Equivalence-Partition Table
+
+| Input | Valid Class | Invalid Class |
+| :--- | :--- | :--- |
+| **`price`** | Positive numbers (e.g., 10, 99.99) | Negative numbers (e.g.[5D[K
+(e.g., -1, -50) |
+| | Zero (0) | Non-numeric types (e.g., "100", `None`) |
+| **`is_premium`** | `True` | Non-boolean types (e.g., "Yes", 1, `None`) |
+| | `False` | |
+
+---
+
+### 3. Boundary-Value Table
+
+| Input | Boundary Case | Value | Expected Behavior |
+| :--- | :--- | :--- | :--- |
+| **`price`** | Lower Boundary | $0$ | Valid (Result should be 0) |
+| | Just above Lower Boundary | $0.01$ | Valid (Minimum positive price) |
+| | Upper Boundary | $\infty$ (Very large number) | Valid (Check for overfl[6D[K
+overflow/precision) |
+| **`is_premium`** | Discrete Value 1 | `True` | Valid (Apply 20% discount)[9D[K
+discount) |
+| | Discrete Value 2 | `False` | Valid (Apply 0% discount) |
+
+---
+
+### 4. Test Cases
+
+Assuming the function should raise a `TypeError` or `ValueError` for invali[6D[K
+invalid inputs.
+
+| Test Case # | `price` | `is_premium` | Expected Output | Note |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | `100.0` | `True` | `80.0` | Standard premium discount |
+| 2 | `100.0` | `False` | `100.0` | Standard regular price |
+| 3 | `0` | `True` | `0.0` | Zero price, premium user |
+| 4 | `0` | `False` | `0.0` | Zero price, regular user |
+| 5 | `50.50` | `True` | `40.40` | Floating point price, premium |
+| 6 | `50.50` | `False` | `50.50` | Floating point price, regular |
+| 7 | `1000000` | `True` | `800000.0` | Large value, premium |
+| 8 | `-10.0` | `True` | `Error/Exception` | Invalid: Negative price |
+| 9 | `100.0` | `"True"` | `Error/Exception` | Invalid: `is_premium` is str[3D[K
+string, not bool |
+| 10 | `"100"` | `True` | `Error/Exception` | Invalid: `price` is string, n[1D[K
+not numeric |
+

@@ -1,0 +1,11 @@
+Here is a function specification:
+
+def calculate_discount(price, is_premium):
+    """Apply a loyalty discount for premium users."""
+
+Premium users get 20% off (price * 0.8). Regular users pay full price.
+
+1. List the input variables and their valid domains.
+2. Give an equivalence-partition table (valid and invalid classes) for each input.
+3. Give a boundary-value table for each input.
+4. Give at least 10 test cases as (price, is_premium, expected output).
